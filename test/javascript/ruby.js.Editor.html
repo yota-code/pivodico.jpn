@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Furigana</title>
+		<script src="javascript/yomi.js"></script>
+		<script src="javascript/ruby.js"></script>
+		<style>
+
+body {
+	width: 50%;
+	margin: 1em auto;
+	background-color:#EEE;
+	padding: 1em;
+    text-align: right;
+}
+
+textarea {
+	width: 100%;
+	height: 8em;
+	width: 100%;
+}
+
+div {
+	width: 100%;
+	margin-top: 12px;
+	text-align:center;
+	background-color:#DDD;
+	padding: 10px;	
+}
+
+		</style>		
+	</head>
+	<body lang="ja">
+	<textarea id="input_text">
+これは、今（いま）から二百年（にひゃくねん）以上（いじょう）前（まえ）の話（はなし）である。
+これは、｛今｜いま｝から｛二百年｜にひゃくねん｝｛以上｜いじょう｝｛前｜まえ｝の｛話｜はなし｝である。
+	</textarea>
+	<div id="output_html"></div>
+	<script type="text/javascript">
+	
+	var m = new ruby.Editor();
+	
+	var input_text = document.getElementById("input_text");
+	var output_html = document.getElementById("output_html");
+	
+	function process() {
+		output_html.innerHTML = m.to_html5(input_text.value);
+	}
+
+	process();
+	
+	document.getElementById("input_text").onchange = process;
+	
+	</script>
+	</body>
+</html>

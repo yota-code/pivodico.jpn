@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Furigana</title>
+		<script src="yomi_data.js"></script>
+		<script src="furigana.js"></script>
+		<style>
+#furigana_input {
+	box-sizing: border-box;
+	width: 50%;
+	float: left;
+	height: 90vh;
+	margin-right: 1em;
+	resize: none;
+}
+
+#furigana_output {
+	box-sizing: border-box;
+	height: 90vh;
+	overflow-y: auto;
+	border: 1px solid grey;
+	padding: 0.5em;
+}
+
+.ruby_error {
+	color: red;	
+}
+
+.ruby_warning {
+	color: orange;	
+}
+		</style>		
+	</head>
+	<body>
+<!--北海道（ほっかいどう）には８月（はちがつ）に続け（つづけ）てたくさんの台風（たいふう）が来（き）て、多く（おおく）の野菜（やさい）に被害（ひがい）が出（で）ています。
+ばべびぼぶ｛引っ越しましたひっこしました｝ばべびぼぶ
+ばべびぼぶ｛症状｜しょうじょう｝ばべびぼぶ
+ばべびぼぶ引っ越しました（ひっこtutuしました）ばべびぼぶ
+
+-->
+		<textarea rows="6" id="furigana_input">
+ばべびぼぶ｛新聞｜しんぶん｝ばべびぼぶ
+	</textarea>
+		<div id="furigana_output" lang="ja"></div>
+	</body>
+	<script type="text/javascript">
+
+	var furigana_input = document.querySelector('#furigana_input');
+	var furigana_output = document.querySelector('#furigana_output');
+
+	new Furigana(furigana_input, furigana_output).auto_refresh();
+
+	</script>
+</html>
+
+<!--十勝（とかち）地方（ちほう）では、雨（あめ）がとてもたくさん降っ（ふっ）て、畑（はたけ）に水（みず）が入っ（はいっ）てじゃがいもや豆（まめ）が悪く（わるく）なったり、強い（つよい）風（かぜ）でとうもろこしが倒れ（たおれ）たりしました。お菓子（おかし）を作る（つくる）会社（かいしゃ）の「カルビー」は、北海道（ほっかいどう）のじゃがいもを使っ（つかっ）た４（よん）種類（しゅるい）のポテトチップスを９月（くがつ）５（ご）日（にち）から売る（うる）予定（よてい）でした。しかし、雨（あめ）でじゃがいもが足り（たり）なくなったため、１０月（じゅうがつ）ごろから売る（うる）ことにしました。南富良野（みなみふらの）町（まち）で「湖（みずうみ）池（ち）屋（や）」という会社（かいしゃ）のポテトチップスを作っ（つくっ）ている工場（こうじょう）も、中（なか）に水（みず）が入っ（はいっ）たため、休ん（やすん）でいます。-->

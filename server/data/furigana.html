@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Furigana</title>
+		<script src="javascript/reccipe.js"></script>
+		<script src="javascript/yomi.js"></script>
+		<script src="javascript/ruby.js"></script>		
+		<script src="javascript/exemple_ruby_map.js"></script>		
+		<link rel="stylesheet" type="text/css" href="data/furigana.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body lang="ja">
+	
+<div id="tab_header"></div>
+	
+<div id="step_one" class="tab_select">
+	<h1>Copy & Paste</h1>
+	<textarea id="japanese_input" rows="8" placeholder="ここに書いてください">活版印刷の流れを汲む出版作業では、振り仮名の大きさは、振り仮名を添える（振る）対象の文字（親文字）の半分とする。本文中の漢字全てに振り仮名を振るものと、読者対象や書物の内容などから文字を選んで振るものとがある。
+
+出版が盛んになると、読者層の広がりから、漢字の識字率が低い層でも読みやすくするための補助として発生した。明治時代に入って以降、第二次世界大戦まで、活版が盛んになっても全ての漢字に振り仮名が振ってあった。新聞、書籍等の、通常の成人日本語話者を読者として想定している出版物でも、振り仮名が振られている場合が多かった。</textarea>
+</div>
+
+<div id="step_two" class="tab_select">
+	<h1>Edit & Select</h1>
+	<textarea id="furigana_input" rows="16"></textarea>
+	<div id="furigana_output"></div>
+	<div id="ruby_group_select"></div>
+	<ul id="ruby_single_select"></ul>
+</div>
+
+<div id="settings" class="tab_select">
+	<h1>Settings</h1>
+	<h2>Parsing errors</h2>
+	<div>
+		<p>Please help us improve our ruby database by correcting missing readings encountered in your text.</p>
+		<p>Reading guide must be splitted using the pipe character</p>
+		<ul>
+			<li>引き出し&nbsp;⟼&nbsp;｛ひ｜き｜だ｜し｝</li>
+		</ul>
+		</p>When the reading is the result of a glottization or a vocalisation of an existing reading, you may add it with a slash</p>
+		<ul>
+			<li>散歩&nbsp;⟼&nbsp;｛さん｜ぽ/ほ｝</li>
+			<li>出発&nbsp;⟼&nbsp;｛しゅっ/しゅつ｜ぱつ/はつ｝</li>
+		</ul>
+		<p>When the reding is an irregular contracted form, use a similar convention to display underlying okurigana</p>
+		<ul>
+			<li>引出し&nbsp;⟼&nbsp;｛ひ/ひ.き｜だ｜し｝</li>
+		</ul>
+	</div>
+	<div id="settings_err">No error detected</div>
+</div>
+<script src="javascript/furigana.js"></script>
+	</body>
+</html>

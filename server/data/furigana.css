@@ -1,0 +1,88 @@
+html {
+	background-color: hsla(244, 44%, 90%, 1);
+}
+
+body {
+	width: 95%;
+	margin: 1em auto;
+}
+
+textarea {
+	box-sizing: border-box;
+	overflow-y: auto;
+	resize: none;
+	font-family: serif;	
+}
+
+h1 {
+	clear: both
+}
+
+#tab_header {
+	background-color: hsla(244, 44%, 25%, 1);	
+}
+
+button {
+	background-color: hsla(244, 44%, 25%, 1);
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+
+#ruby_group_select > button {
+	background-color: hsla(244, 44%, 25%, 1);
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0.1em;
+	margin-right: 0.25em;
+}
+
+#furigana_input {
+	width: 100%;
+	overflow-y: auto;
+}
+
+#furigana_output {
+	background-color: hsla(244, 44%, 80%, 1);
+	margin: 1em auto;
+	padding: 1em;
+	line-height: 200%;
+}
+
+#japanese_input {
+	width: 100%;
+}
+
+.ruby_error {
+	color: red;	
+}
+
+.ruby_warning {
+	color: orange;	
+}
+
+/*label {
+	white-space: nowrap;
+	background-color: hsla(244, 44%, 80%, 1);
+	padding: 0.5em;
+}*/
+
+
+ul#ruby_single_select > li > span {
+	margin: 0.5em;
+	background-color: lightgreen;
+}
+
+ul#ruby_single_select > li > span._s_hidden {
+	background-color: indianred;
+	color: white;
+}
+
+li {
+	display: inline-block;
+}

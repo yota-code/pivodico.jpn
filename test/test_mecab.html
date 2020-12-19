@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Furigana</title>
+		<script src="../../../javascript/reccipe.js"></script>
+		<script src="test_mecab.js"></script>
+		<script src="../javascript/furigana.js"></script>
+		<style>
+		
+#furigana_input {
+	box-sizing: border-box;
+	width: 50%;
+	float: left;
+	height: 90vh;
+	margin-right: 1em;
+	resize: none;
+}
+
+#furigana_output {
+	box-sizing: border-box;
+	height: 90vh;
+	overflow-y: auto;
+	border: 1px solid grey;
+	padding: 0.5em;
+}
+
+.r_error {
+	color: red;	
+}
+
+.ruby_warning {
+	color: orange;	
+}
+
+		</style>		
+	</head>
+	<body>
+		<table id="test_corpus"></table>
+	</body>
+	<script type="text/javascript">
+	
+	var ruby = new Furigana(yomi_tree);
+	
+	n_table = document.querySelector("#test_corpus");
+	n_tr = n_table.grow("tr");
+	n_tr.grow("td").add_text('あおば生命');
+	n_tr.grow("td").add_text('あおばせいめい');
+	n_tr.grow("td").innerHTML = ruby.to_html('あおば生', 'あおばせい');
+	
+	/*
+	for (let line of furigana_test_corpus.slice(108, 109)) {
+		n_tr = n_table.grow("tr");
+		n_tr.grow("td").add_text(line[0]);
+		n_tr.grow("td").add_text(line[1]);
+		n_tr.grow("td").innerHTML = ruby.to_html(line[0], line[1]);
+	}*/
+	
+	//var furigana_input = document.querySelector('#furigana_input');
+	//var furigana_output = document.querySelector('#furigana_output');
+    //
+
+	</script>
+</html>

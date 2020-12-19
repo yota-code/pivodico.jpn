@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Furigana</title>
+		<script src="javascript/ja.js"></script>
+		<script src="javascript/ruby.js"></script>
+		<style>
+body {
+	width: 50%;
+	margin: 1em auto;
+	background-color:#EEE;
+	padding: 1em;
+    text-align: right;
+}
+
+div {
+	width: 100%;
+	margin-top: 12px;
+	text-align:center;
+	background-color:#DDD;
+	padding: 10px;	
+}
+
+#output_ruby {
+	font-size: 3em;
+}
+
+#output_html {
+	white-space: pre;
+}
+
+		</style>		
+	</head>
+	<body lang="ja">
+	<label for="furigana">Furigana</label>&nbsp;
+	<input name="furigana" id="input_furigana" type="text" value="たべる"></input><br>
+	<label for="kanji">Kanji</label>&nbsp;
+	<input name="kanji" id="input_kanji" type="text" value="食べる"></input>
+	<div id="output_ruby"></div>
+	<div id="output_html"></div>
+	<script type="text/javascript">
+	
+	var m = new ruby.Furigana();
+	
+	var kanji = document.getElementById("input_kanji");
+	var furigana = document.getElementById("input_furigana");
+	
+	var output_ruby = document.getElementById("output_ruby");
+	var output_html = document.getElementById("output_html");
+	
+	function process() {
+		var txt = m.to_html5(kanji.value, furigana.value);
+		output_ruby.innerHTML = txt;
+		output_html.textContent = txt;
+	}
+		
+	process();
+	
+	document.getElementById("input_kanji").onchange = process;
+	document.getElementById("input_furigana").onchange = process;
+	
+	</script>
+	</body>
+</html>
