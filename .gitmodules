@@ -1,3 +1,3 @@
-[submodule "reference/joyodb"]
-	path = reference/joyodb
+[submodule "reference/joyodb/repo"]
+	path = reference/joyodb/repo
 	url = https://github.com/melissaboiko/joyodb.git

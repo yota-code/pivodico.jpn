@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 
-import pivo.lang.ja
+import os
+
+from cc_pathlib import Path
+
+import pivodico.jpn.tool
 
 class Duplex() :
+
 	def __init__(self, kanji, furigana) :
 		
 		self._k_original = kanji
 		self._f_original = furigana
-		self._k_normal = pivo.lang.ja.normalize(kanji)
-		self._f_normal = pivo.lang.ja.normalize(furigana)
+		self._k_normal = pivodico.jpn.tool.normalize(kanji)
+		self._f_normal = pivodico.jpn.tool.normalize(furigana)
 		
 	def __str__(self) :
 		return "original: {0} / {1} > normal: {2} / {3}".format(
@@ -54,4 +59,5 @@ class Duplex() :
 		
 if __name__ == '__main__' :
 	u = Duplex('引っ越す', 'ひっこす')
+	print(u)
 	

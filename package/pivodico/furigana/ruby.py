@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
 
-import sys, collections
+import collections
+import sys
+import os
 
-import reccipe
+from cc_pathlib import Path
 
-from reccipe.file import Path
+import pivodico.jpn.tool
 
-import pivo
-import pivo.lang.ja
-
-from furigana.duplex import Duplex
+def nesteddict() :
+	return collections.defaultdict(nesteddict)
 
 class Ruby() :
-	def __init__(self, explicit=True, debug=False) :
+	def __init__(self) :
+		self.data_dir = Path(os.environ["PIVODICO_jpn_DIR"]) / "data"
+
+		self.yomi_map = dict()
+
+		self.load_furigana()
+		self.load_jukujikun()
+
+		(self.data_dir / "yomi.dbg.json").save(self.yomi_map, filter_opt={"verbose": True})
+		(self.data_dir / "yomi.json.br").save(self.yomi_map)
+
+	def __init__old(self, explicit=True, debug=False) :
 
 		self.explicit = explicit
 		self.debug = debug
@@ -21,6 +32,100 @@ class Ruby() :
 		self.jukujikun = dict()
 
 		self.f_longest = collections.defaultdict(int)
+
+	# def load_furigana(self) :
+	# 	data_lst = (self.data_dir / "furigana.tsv").load()
+		
+	# 	self.furigana_map = collections.defaultdict(set)
+	# 	for kanji, * furigana_lst in data_lst :
+	# 		for furigana in furigana_lst :
+	# 			self.furigana_map[kanji].add(
+	# 				tuple(furigana.split('/')) if '/' in furigana else furigana
+	# 			)
+
+	# 	(self.data_dir / "furigana.json").save(self.furigana_map)
+
+	# def load_furigana(self) :
+	# 	data_lst = (self.data_dir / "furigana.tsv").load()
+		
+	# 	self.furigana_map = collections.defaultdict(set)
+	# 	for kanji, * furigana_lst in data_lst :
+	# 		for furigana in furigana_lst :
+
+	# 			if '/' in furigana :
+	# 				f_abs, f_rel = furigana.split('/')
+	# 			else :
+	# 				f_abs, f_rel = furigana, None
+
+	# 			m = self.furigana_map
+
+	# 			f_lst = list(f_abs)
+	# 			while f_lst :
+	# 				f = f_lst.pop()
+	# 				if f not in m :
+	# 					m[f] = dict()
+	# 				m = m[f]
+	# 			m[kanji] = f_rel
+	# 			# if f_rel is not None :
+	# 			# 	(self.data_dir / f"furigana_{n}.json").save(self.furigana_map, filter_opt={"verbose": True})
+	# 			# 	n += 1
+
+	# 	(self.data_dir / "furigana.json").save(self.furigana_map, filter_opt={"verbose": True})
+
+
+	def load_jukujikun(self) :
+		data_lst = (self.data_dir / "jukujikun.tsv").load()
+
+		for k, * j_lst in data_lst :
+			for j in j_lst :
+				j = pivodico.jpn.tool.to_katakana_trm.translate(j)
+
+				m = self.yomi_map
+				h_lst = list(j)
+				while h_lst :
+					h = h_lst.pop()
+					if h not in m :
+						m[h] = dict()
+					m = m[h]
+				m[k] = None
+
+	def load_furigana(self) :
+		data_lst = (self.data_dir / "furigana.tsv").load()
+		for k, * g_lst in data_lst :
+			for g in g_lst :
+				g = pivodico.jpn.tool.to_katakana_trm.translate(g)
+				if '/' in g :
+					f, * a_lst = g.split('/')
+				else :
+					f, a_lst = None, [g,]
+				
+				for a in a_lst :
+					m = self.yomi_map
+
+					h_lst = list(a)
+					while h_lst :
+						h = h_lst.pop()
+						if h not in m :
+							m[h] = dict()
+						m = m[h]
+					m[k] = f
+
+	# def load_furigana(self) :
+	# 	# optimisé seulement pour cette fonction
+	# 	data_lst = (self.data_dir / "furigana.tsv").load()
+		
+	# 	for k, * g_lst in data_lst :
+	# 		for g in g_lst :
+	# 			g = pivodico.jpn.tool.to_katakana_trm.translate(g)
+	# 			if '/' in g :
+	# 				f, * a_lst = g.split('/')
+	# 				print(g, f, a_lst)
+	# 				for a in a_lst :
+	# 					self.yomi_map[k][a] = f
+	# 			else :
+	# 				self.yomi_map[k][g] = None
+
+
 
 	def refresh_f_longest(self) :
 		self.f_longest = {
@@ -46,7 +151,7 @@ class Ruby() :
 				m = m[c]
 			m[f] = None
 
-	def load_jukujikun(self, pth) :
+	def load_jukujikun_old(self, pth) :
 		"""
 		complexe readings
 		"""
@@ -66,7 +171,7 @@ class Ruby() :
 		self.furigana[k][f] = r
 		self.f_longest[k] = max(self.f_longest[k], len(f))
 
-	def load_furigana(self, pth) :
+	def load_furigana_disabled(self, pth) :
 		"""
 		reading can contains:
 		'-' to mark a suffix of prefix form
@@ -238,6 +343,11 @@ class Ruby() :
 			)
 
 if __name__ == '__main__' :
+
+	u = Ruby()
+
+	sys.exit(0)
+
 	k, f = sys.argv[1:]
 	u = Ruby(debug=True).default_config()
 	print(k, f, '->', u.split(k, f))
