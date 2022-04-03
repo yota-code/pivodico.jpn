@@ -6,9 +6,9 @@ import unicodedata
 
 from cc_pathlib import Path
 
-import pivodico.jpn.tool as jpn_tool
+import pivodico.jpn.tool.translate as jpn_tool
 
-lang_dir = Path(os.environ["PIVODICO_jpn_DIR"])
+# lang_dir = Path(os.environ["PIVODICO_jpn_DIR"])
 
 class Corpus() :
 	def __init__(self, pth) :
@@ -16,9 +16,7 @@ class Corpus() :
 		self.corpus_map = collections.defaultdict(set)
 
 	def normalize(self, txt) :
-		txt = unicodedata.normalize("NFKC", txt)
-		txt = jpn_tool.to_katakana_trm.translate(txt)
-		return txt
+		return unicodedata.normalize("NFKC", txt) | jpn_tool.to_katakana_trm
 
 	def load(self) :
 		if self.corpus_pth.is_file() :
@@ -41,7 +39,7 @@ class Corpus() :
 		self.save()
 
 	def push_to_corpus(self, kanji, furigana) :
-		kanji = self.normalize(kanji)
+		kanji = kanji.replace('・', '')
 		furigana = self.normalize(furigana)
 
 		if jpn_tool.only_hiragana_katakana_kanji_rec.match(kanji) and jpn_tool.any_kanji(kanji) and jpn_tool.only_katakana_rec.match(furigana) :

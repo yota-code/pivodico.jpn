@@ -5,6 +5,8 @@ import os
 
 from cc_pathlib import Path
 
+import pivodico.tool.jpn
+
 class FuriganaJukujikun() :
 	def __init__(self) :
 		self.data_pth = Path(os.environ["PIVODICO_furigana_DIR"]) / "data" / "reference" / "jukujikun.tsv"
@@ -16,7 +18,15 @@ class FuriganaJukujikun() :
 			raise ValueError
 
 		for k, * f_lst in pth.load() :
-			self.j_map[k] |= set(f_lst)
+			if pivodico.tool.jpn.all_kanji(k) :
+				for f in f_lst :
+					if pivodico.tool.jpn.is_only_hiragana_katakana(f):
+						print(f"{k} -> {f}")
+						self.j_map[k].add(f)
+					else :
+						print(f"not only hiragana in {k} {f}")
+			else :
+				print(f"not only kanji in {k}")
 
 	def save(self) :
 		t_lst = list()

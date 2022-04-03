@@ -7,14 +7,14 @@ import unicodedata
 
 from cc_pathlib import Path
 
-from pivodico.generic.tool.translate import TransMap
+from pivodico.generic.tool.translate import TranslateMap
 
-translate_dir = Path(os.environ["PIVODICO_jpn_DIR"]) / "data" / "translate"
+translate_dir = Path(os.environ["PIVODICO_source_DIR"]) / "code" / "pivodico.jpn" / "data" / "translate"
 
 # http://www.localizingjapan.com/blog/2012/01/20/regular-expressions-for-japanese-text/
 
 jpn_map = {
-	"hiragana" : r'\u3041-\u3096',
+	"hiragana" : r'\u3041-\u309F',
 	"katakana" : r'\u30A0-\u30FF',
 	"kanji" : r'\u3400-\u4DB5\u4E00-\u9FCB\uF900-\uFA6A',
 }
@@ -29,30 +29,34 @@ def jpn_catch(* arg_lst, only=False) :
 	else :
 		return re.compile(r'[{0}]+'.format(range_txt), re.UNICODE)
 
-
 # is_kanji_rec = re.compile(r'^[{0}]+$'.format(hiragana_range), re.UNICODE)
 # only_hiragana_rec = re.compile(r'^[{0}]+$'.format(hiragana_range), re.UNICODE)
+only_hiragana_rec = jpn_catch("hiragana", only=True)
 only_katakana_rec = jpn_catch("katakana", only=True)
+only_hiragana_katakana_rec = jpn_catch("hiragana", "katakana", only=True)
 only_hiragana_katakana_kanji_rec = jpn_catch("hiragana", "katakana", "kanji", only=True)
 
 def is_only_hiragana(txt) :
 	return only_hiragana_rec.match(txt) is not None
 
-rem_dakuten_trm = TransMap(translate_dir / "dakuten.tsv")
+def is_only_hiragana_katakana(txt) :
+	return only_hiragana_katakana_rec.match(txt) is not None
+
+rem_dakuten_trm = TranslateMap(translate_dir / "rem_dakuten.tsv")
 add_dakuten_trm = ~ rem_dakuten_trm
 
-rem_handakuten_trm = TransMap(translate_dir / "handakuten.tsv")
+rem_handakuten_trm = TranslateMap(translate_dir / "rem_handakuten.tsv")
 add_handakuten_trm = ~ rem_handakuten_trm
 
-rem_diacritics_trm = rem_dakuten_trm | rem_handakuten_trm
+# rem_diacritics_trm = rem_dakuten_trm | rem_handakuten_trm
 
-to_katakana_trm = TransMap(translate_dir / "katakana.tsv")
+to_katakana_trm = TranslateMap(translate_dir / "hiragana_to_katakana.tsv")
 
 def any_kanji(s) :
-        return any(unicodedata.name(c).startswith("CJK UNIFIED IDEOGRAPH") for c in s)
+    return any(unicodedata.name(c).startswith("CJK UNIFIED IDEOGRAPH") for c in s)
 
 def all_kanji(s) :
-        return all(unicodedata.name(c).startswith("CJK UNIFIED IDEOGRAPH") for c in s)
+    return all(unicodedata.name(c).startswith("CJK UNIFIED IDEOGRAPH") for c in s)
 
 def normalize(s) :
 	s_lst = to_katakana_trm.translate(s)

@@ -11,7 +11,7 @@ function push_pythonpath() {
 
 push_pythonpath ${source_DIR}
 
-export PIVODICO_furigana_DIR=${source_DIR}
+export PIVODICO_source_DIR=${source_DIR}
 
 typeset -T PYTHONPATH pythonpath
 
